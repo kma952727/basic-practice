@@ -1,5 +1,8 @@
 package structure.linkedlist;
 
+import javax.swing.*;
+import java.util.Collection;
+
 public class MyLinkedList
 {
     Node head;
@@ -12,10 +15,7 @@ public class MyLinkedList
 
     public boolean add(final Object data)
     {
-        Node currentNode = head;
-        while (currentNode.hasNextNode()) {
-            currentNode = currentNode.nextNode;
-        }
+        Node currentNode = travel();
         boolean isSuccess = currentNode.addNextNode(new Node(data));
         return isSuccess;
     }
@@ -38,11 +38,38 @@ public class MyLinkedList
         return isSuccessAddPrevNode && isSuccessAddNextNode;
     }
 
+    public <E> boolean addAll(final Collection<? extends E> data)
+    {
+        Node tailsNode = travel();
+        E[] dataArrayList = (E[])data.toArray();
+        Node[] items = new Node[data.size()];
+        Node prevNode = tailsNode;
+
+        for (int i = 0; i < data.size() - 1; i++)
+        {
+            items[i] = new Node(dataArrayList[i]);
+            boolean isSuccess = prevNode.addNextNode(items[i]);
+            prevNode = items[i];
+            if(!isSuccess) return false;
+        }
+        return true;
+    }
+
+
     public Node get(final int index)
     {
         Node currentNode = head;
         for(int i = 0; i < index; i++) {
             if(!currentNode.hasNextNode()) throw new RuntimeException("out of index..! list lastIndex : " + i);
+            currentNode = currentNode.nextNode;
+        }
+        return currentNode;
+    }
+
+    private Node travel()
+    {
+        Node currentNode = head;
+        while (currentNode.hasNextNode()) {
             currentNode = currentNode.nextNode;
         }
         return currentNode;
