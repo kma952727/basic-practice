@@ -1,11 +1,11 @@
 package structure.linkedlist;
 
-public class Node
+public class Node<E>
 {
-    Object data;
-    Node nextNode;
+    E data;
+    Node<E> nextNode;
 
-    public Node(Object data)
+    public Node(E data)
     {
         this.data = data;
         this.nextNode = null;
@@ -19,6 +19,7 @@ public class Node
         else
             return false;
     }
+
     boolean hasNextNode()
     {
         return this.nextNode != null;

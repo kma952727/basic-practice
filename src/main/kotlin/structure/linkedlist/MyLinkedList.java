@@ -1,41 +1,108 @@
 package structure.linkedlist;
 
-import javax.swing.*;
 import java.util.Collection;
 
-public class MyLinkedList
+/**
+ * Object대신 Generic을 사용했습니다.
+ * compile타이밍에 타입이 정해집니다. 런타임환경에서의 타입 캐스팅이 사라집니다.
+ *
+ * @param <E>
+ */
+public  class MyLinkedList<E>
 {
-    Node head;
+    private Node head;
+    private int size;
 
-    public MyLinkedList(final Object data)
+    public MyLinkedList(final E data)
     {
         head = new Node(data);
+        size = 1;
     }
 
 
-    public boolean add(final Object data)
+    public boolean add(final E data)
     {
         Node currentNode = travel();
         boolean isSuccess = currentNode.addNextNode(new Node(data));
-        return isSuccess;
+        if(isSuccess) {
+            this.size++;
+            return true;
+        }
+        return false;
     }
 
-    public boolean add(final Object data, final int index)
+    public boolean addFirst(final E data)
     {
         Node newNode = new Node(data);
-        Node node = get(index);
+        Node originHead = head;
+        head = newNode;
+        boolean isSuccess = head.addNextNode(originHead);
 
-        boolean isSuccessAddPrevNode = false;
-        boolean isSuccessAddNextNode;
-
-        if(index > 0)
-        {
-            Node prevNode = get(index - 1);
-            isSuccessAddPrevNode = prevNode.addNextNode(newNode);
+        if(isSuccess) {
+            this.size++;
+            return true;
         }
-        isSuccessAddNextNode = newNode.addNextNode(node);
+        return false;
+    }
 
-        return isSuccessAddPrevNode && isSuccessAddNextNode;
+    public boolean remove( final int index )
+    {
+        if(index == 0) {    // HEAD
+
+            if(size > 0) {
+                Node nextNode = head.nextNode;
+                head = nextNode;
+            }else{
+                head = null;
+            }
+        }else if( index == size - 1 ) {  // TAIL
+
+            Node lastPrevNode = get( size - 2 );
+            lastPrevNode.nextNode = null;
+        }else if(index >= size) {   //  OUT
+
+            throw new RuntimeException("범위 초과");
+        }else {     //  BODY
+
+            Node prevNode = get(index - 1);
+            Node tempNode = prevNode.nextNode.nextNode;
+            prevNode.addNextNode(tempNode);
+        }
+        size--;
+        return true;
+    }
+
+    public int getSize()
+    {
+        return size;
+    }
+
+    public boolean add(final E data, final int index)
+    {
+        boolean isSuccessPrev = false;
+        boolean isSuccessNext = false;
+
+        Node newNode = new Node(data);
+        Node node = null;
+
+        if(index > 0)   //  Param index greater than 0 ( target: not head )
+        {
+            node = get(index);
+            Node prevNode = get(index - 1);
+            isSuccessPrev = prevNode.addNextNode(newNode);
+            isSuccessNext = newNode.addNextNode(node);
+        }else if(index == 0) {  //   Param index is zero ( target: head )
+            node = head;
+            head = newNode;
+            isSuccessNext = head.addNextNode(node);
+            isSuccessPrev = true;
+        }
+        if(isSuccessPrev && isSuccessNext) {
+            size++;
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public <E> boolean addAll(final Collection<? extends E> data)
@@ -52,6 +119,7 @@ public class MyLinkedList
             prevNode = items[i];
             if(!isSuccess) return false;
         }
+        this.size += data.size();
         return true;
     }
 
