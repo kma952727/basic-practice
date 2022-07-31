@@ -134,7 +134,7 @@ public  class MyLinkedList<E>
         return currentNode;
     }
     public boolean contains(E e){
-        if(head == null) throw new RuntimeException("head is null");
+        if(head == null) throw new RuntimeException("head is nullg");
         Node currentNode = head;
         while (currentNode.hasNextNode()) {
             if (currentNode.data.equals(e)) return true;
