@@ -133,7 +133,15 @@ public  class MyLinkedList<E>
         }
         return currentNode;
     }
-
+    public boolean contains(E e){
+        if(head == null) throw new RuntimeException("head is null");
+        Node currentNode = head;
+        while (currentNode.hasNextNode()) {
+            if (currentNode.data.equals(e)) return true;
+            currentNode = currentNode.nextNode;
+        }
+        return false;
+    }
     private Node travel()
     {
         Node currentNode = head;

@@ -17,15 +17,7 @@ public class Main {
         linkedList.add(3);
         linkedList.add(10, 1);
         linkedList.addFirst(101);
-        System.out.println(linkedList);
-        linkedList.remove(0);
-        System.out.println(linkedList);
-        linkedList.remove(1);
-        System.out.println(linkedList);
-        linkedList.remove(1);
-        System.out.println(linkedList);
-        linkedList.remove(0);
-        System.out.println(linkedList);
 
+        System.out.println( linkedList.contains(1124) );
     }
 }
