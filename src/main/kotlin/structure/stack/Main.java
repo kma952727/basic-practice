@@ -19,6 +19,6 @@ public class Main {
         myStack.pop();
         myStack.pop();
         System.out.println(myStack);
-        new Stack<>();
+        System.out.println(myStack);
     }
 }

@@ -28,6 +28,9 @@ public class Node<E>
         if(nextNode == null) throw new RuntimeException("nextNode is null!");
         return nextNode;
     }
+    public E getValue(){
+        return data;
+    }
     @Override
     public String toString() {
         return data.toString();
